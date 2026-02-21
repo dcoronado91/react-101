@@ -3,12 +3,42 @@ import "./App.css"
 import { TwitterFollowCard } from "./TwitterFollowCard"
 
 export function App () {
+    const formatUserName = (userName) => `@${userName}` 
+
     return(
-        <React.Fragment>
-            <TwitterFollowCard userName="daggerlover91" name="Derek "/>
-            <TwitterFollowCard userName="BigSalchichin" name="Nery"/>
-            <TwitterFollowCard userName="MRvimi" name="Mario"/>
-            <TwitterFollowCard userName="_elsanti1" name="Santi"/>
+        <section className="App">
+            <React.Fragment>
+            <TwitterFollowCard 
+            formatUserName={formatUserName} 
+            isFollowing 
+            userName="daggerlover91">
+            <strong>Derek Coronado</strong>
+            </TwitterFollowCard>
+
+            <TwitterFollowCard 
+            formatUserName={formatUserName}
+            isFollowing 
+            userName="BigSalchichin">
+            <strong>Nery Hernandez</strong>
+            </TwitterFollowCard>
+
+            <TwitterFollowCard 
+            formatUserName={formatUserName} 
+            isFollowing
+            userName="MRvimi" 
+            name="Mario">
+            <strong>Mario Villanueva</strong>
+            </TwitterFollowCard>
+
+            <TwitterFollowCard 
+            formatUserName={formatUserName} 
+            isFollowing
+            userName="_elsanti1" 
+            name="Santi">
+            <strong>Santiago Barrios</strong>
+            </TwitterFollowCard>
+
         </React.Fragment>
+        </section>
     )
 }
