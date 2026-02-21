@@ -1,18 +1,9 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
-
-const Button = ({text}) => {
-  return(
-  <button>
-    {text}
-  </button>
-  )
-}
+import { App } from "./App"
+import "./index.css"
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <React.Fragment>
-    <Button text={"Hola Mundo"}/>
-    <Button text={"Hola desde otro lado"}/>
-  </React.Fragment>
+  <App/>
 )
