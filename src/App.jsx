@@ -10,21 +10,18 @@ export function App () {
             <React.Fragment>
             <TwitterFollowCard 
             formatUserName={formatUserName} 
-            isFollowing 
             userName="daggerlover91">
             <strong>Derek Coronado</strong>
             </TwitterFollowCard>
 
             <TwitterFollowCard 
             formatUserName={formatUserName}
-            isFollowing 
             userName="BigSalchichin">
             <strong>Nery Hernandez</strong>
             </TwitterFollowCard>
 
             <TwitterFollowCard 
             formatUserName={formatUserName} 
-            isFollowing
             userName="MRvimi" 
             name="Mario">
             <strong>Mario Villanueva</strong>
@@ -32,7 +29,6 @@ export function App () {
 
             <TwitterFollowCard 
             formatUserName={formatUserName} 
-            isFollowing
             userName="_elsanti1" 
             name="Santi">
             <strong>Santiago Barrios</strong>
