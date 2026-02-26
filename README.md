@@ -1,121 +1,147 @@
-# 🚀 Primer Proyecto React con Vite
+# 🐦 Twitter Follow Card - React Practice
 
-Este proyecto representa mis primeros pasos aprendiendo React desde cero, configurando el entorno correctamente y creando mi primer componente reutilizable.
+Este proyecto es parte de mi proceso aprendiendo React desde cero, donde practiqué componentes reutilizables, renderizado dinámico y manejo de estado usando `useState`.
 
-## 📚 Lo que aprendí
+La idea fue recrear una versión simplificada de la Twitter Follow Card, incluyendo interacción real en el botón de seguir.
 
-Durante esta sesión trabajé en:
+## 🚀 Lo que practiqué en esta lección
 
-- ✅ Verificar instalación de Node.js y npm
-- ✅ Entender que React no se instala globalmente
-- ✅ Instalar y configurar Vite como entorno moderno de desarrollo
-- ✅ Entender qué es un componente en React
-- ✅ Diferencia entre `function` y `const` en componentes
-- ✅ Comprender el problema del hoisting
-- ✅ Renderizar múltiples componentes
-- ✅ Usar props para hacer componentes reutilizables
+- ✅ Creación de componentes reutilizables
+- ✅ Uso de props para pasar información dinámica
+- ✅ Uso del hook `useState`
+- ✅ Renderizado de listas con `.map()`
+- ✅ Uso correcto de `key` en listas
+- ✅ Manejo de eventos (`onClick`)
+- ✅ Renderizado condicional
+- ✅ Manejo dinámico de clases CSS
+- ✅ Estados iniciales (`isFollowing: true / false`)
+- ✅ Efectos visuales con `hover`
+- ✅ Separación de lógica y datos
 
-## 🧠 Conceptos Clave
+## 🧠 Conceptos importantes aplicados
 
-### 🔹 ¿Qué es un componente?
+### 🔹 Componentes reutilizables
 
-Un componente en React es una función que retorna JSX.
+La Follow Card fue diseñada como un componente independiente:
 ```jsx
-const Button = ({ text }) => {
-  return (
-    <button>
-      {text}
-    </button>
-  )
+export function TwitterFollowCard({ userName, children }) {
+```
+
+Permitiendo reutilizarlo múltiples veces con distintos usuarios.
+
+### 🔹 Props
+
+Se usaron props para:
+
+- `userName`
+- `children` (para el nombre)
+- `isFollowing`
+- `formatUserName` (en algunas versiones)
+
+Ejemplo:
+```jsx
+<TwitterFollowCard
+  key={userName}
+  userName={userName}
+  isFollowing={isFollowing}
+>
+  {name}
+</TwitterFollowCard>
+```
+
+### 🔹 Renderizado de listas
+
+Se utilizó `.map()` para renderizar múltiples usuarios dinámicamente:
+```jsx
+users.map(user => (
+  <TwitterFollowCard
+    key={user.userName}
+    userName={user.userName}
+    isFollowing={user.isFollowing}
+  >
+    {user.name}
+  </TwitterFollowCard>
+))
+```
+
+Entendiendo la importancia de:
+
+- Usar `key`
+- No mezclar lógica con datos
+- Mantener los componentes limpios
+
+### 🔹 useState
+
+Se implementó estado interno para controlar el botón:
+```jsx
+const [isFollowing, setIsFollowing] = useState(false)
+```
+
+Y cambiarlo dinámicamente:
+```jsx
+const handleClick = () => {
+  setIsFollowing(!isFollowing)
 }
 ```
 
-### 🔹 ¿Qué son las props?
+Esto permitió:
 
-Las props permiten pasar información a un componente.
+- Cambiar el texto del botón
+- Cambiar la clase CSS
+- Simular el comportamiento real de Twitter
+
+### 🔹 Renderizado condicional
 ```jsx
-<Button text="Hola Mundo" />
+const text = isFollowing ? "Siguiendo" : "Seguir"
+```
+```jsx
+const buttonClassName = isFollowing
+  ? "tw-followCard-button is-following"
+  : "tw-followCard-button"
 ```
 
-En este caso, `text` es una prop que se usa dentro del componente.
+### 🔹 Hover dinámico
 
-### 🔹 ¿Qué es React.Fragment?
+Se utilizó CSS para mostrar:
 
-`React.Fragment` permite agrupar múltiples elementos sin agregar un nodo extra al DOM.
-```jsx
-<React.Fragment>
-  <Button text="Hola Mundo" />
-  <Button text="Hola desde otro lado" />
-</React.Fragment>
-```
+- "Dejar de seguir" al hacer hover
+- Cambios de color dinámicos
+- Transiciones suaves
 
-También puede escribirse como:
-```jsx
-<>
-  <Button text="Hola Mundo" />
-  <Button text="Hola desde otro lado" />
-</>
-```
+Esto ayudó a imitar mejor la experiencia real de Twitter.
 
-## 💻 Código Actual del Proyecto
-```jsx
-import React from "react"
-import ReactDOM from "react-dom/client"
+## 🎨 Resultado Final
 
-const Button = ({ text }) => {
-  return (
-    <button>
-      {text}
-    </button>
-  )
-}
+La aplicación muestra:
 
-const root = ReactDOM.createRoot(document.getElementById('root'))
+- Dos usuarios renderizados dinámicamente
+- Botón funcional que cambia estado
+- Cambio visual al hacer hover
+- Interacción independiente por cada card
 
-root.render(
-  <React.Fragment>
-    <Button text={"Hola Mundo"} />
-    <Button text={"Hola desde otro lado"} />
-  </React.Fragment>
-)
-```
+## 🛠 Tecnologías usadas
 
-## 🛠 Tecnologías Utilizadas
-
-- React 18
+- React
 - ReactDOM
 - Vite
 - JavaScript (ES6+)
+- CSS
 
-## 🚀 Cómo ejecutar el proyecto
+## 📚 Aprendizajes clave
 
-1. Instalar dependencias:
-```bash
-npm install
-```
+- Pantalla en blanco casi siempre significa error en consola.
+- No se pueden usar props que no se pasan.
+- La desestructuración solo funciona si la propiedad existe.
+- Las listas en React necesitan `key`.
+- El estado local puede sobrescribir props si no se maneja correctamente.
+- Separar datos (array) de lógica (funciones) es buena práctica.
 
-2. Ejecutar servidor de desarrollo:
-```bash
-npm run dev
-```
+## 🎯 Objetivo de esta práctica
 
-3. Abrir en el navegador:
-```
-http://localhost:5173
-```
+Entender profundamente:
 
-## 📈 Próximos pasos
-
-- Aprender `useState`
-- Manejo de eventos (`onClick`)
-- Separar componentes en archivos (`App.jsx`, `Button.jsx`)
-- Entender el ciclo de renderizado
-- Introducción a Hooks
-
-## 🎯 Objetivo
-
-Construir una base sólida en React entendiendo primero:
-
-- Cómo funciona el renderizado
-- Cómo se crean componentes
-- Cómo se pasan datos entre componentes
+- Cómo React renderiza
+- Cómo funcionan los estados
+- Cómo se reutilizan componentes
+- Cómo manejar listas dinámicamente
+- Cómo combinar lógica y estilos para crear UI interactiva
