@@ -2,38 +2,10 @@ import React, { useState } from 'react'
 import './App.css'
 import confetti from 'canvas-confetti'
 
-//Turnos
-const TURNS  = {
-  X: 'X',
-  O: 'O'
-}
-
-const Square = ({ children, isSelected, updateBoard, index }) => {
-const className = `square ${isSelected ? 'is-selected' : ''}`
-
-// Función para manejar el click en la casilla
-// onCLick llama a updateBoard con el index de la casilla para actualizar el tablero
-const handleClick = () => {
-  updateBoard(index)
-} 
-
-  return(
-    <div onClick={handleClick} className={className}>
-      {children}
-    </div>
-  )
-}
-
-const WINNER_COMBOS = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6]
-]
+import { Square } from './components/Square.jsx'
+import { TURNS } from './constants.js'
+import { checkWinnerFrom, checkEndGame } from './logic/board.js'
+import { WinnerModal } from './components/WinnerModal.jsx'
 
 function App() {
 // Se setea el tablero con 9 posiciones vacías (null)
@@ -44,29 +16,10 @@ function App() {
 
 const [winner, setWinner] = useState(null) // Estado para almacenar el ganador, inicialmente es null, si hay ganador se actualiza con "X" o "O"
 
-//Revisa si hay ganador despues de cada movimiento, si hay ganador se actualiza el estado winner
-const checkWinner = (boardToCheck) => {
-  for (const combo of WINNER_COMBOS) {
-    const [a, b, c] = combo
-    if (
-      boardToCheck[a] && //Chequea que la casilla no esté vacía
-      boardToCheck[a] === boardToCheck[b] && //Chequea que las casillas a y b sean iguales
-      boardToCheck[a] === boardToCheck[c]) { //Si a y b son iguales, chequea que las casillas a y c sean iguales
-      return boardToCheck[a]
-    }
-  }
-  return null // Si no hay ganador, devuelve null
-}
-
 const resetGame = () => {
   setBoard(Array(9).fill(null)) // Reinicia el tablero a su estado inicial (9 posiciones vacías)
   setTurn(TURNS.X) // Reinicia el turno a "X"
   setWinner(null) // Reinicia el ganador a null
-}
-
-const checkEndGame = (newBoard) => {
-  // Revisa si el tablero está lleno (no hay casillas vacías)
-  return newBoard.every(square => square !== null)
 }
 
 // Función para actualizar el tablero cuando se hace click en una casilla (se llama en el componente Square)
@@ -75,7 +28,7 @@ const checkEndGame = (newBoard) => {
     const newBoard = [...board] // Nuevo tablero
     newBoard[index] = turn // "X" o "O"
     setBoard(newBoard)
-    const newWinner = checkWinner(newBoard) // Revisa si hay ganador con el nuevo tablero
+    const newWinner = checkWinnerFrom(newBoard) // Revisa si hay ganador con el nuevo tablero
     if(newWinner) {
       confetti() // Si hay ganador, se lanza confetti
       setWinner(newWinner) // Si hay ganador, se actualiza el estado winner
@@ -119,29 +72,7 @@ const checkEndGame = (newBoard) => {
         </Square>
       </section>
       
-{
-  winner !== null && (
-    <section className='winner'>
-      <div className='text'>
-        <h2>
-          {
-            winner === false
-            ? 'Empate'
-            : 'Ganó: ' + winner
-          }
-        </h2>
-
-        <header className='win'>
-          {winner && <Square>{winner}</Square>}
-        </header>
-
-        <footer>
-          <button onClick={resetGame}>Reiniciar juego</button>
-        </footer>
-      </div>
-    </section>
-  )
-}
+<WinnerModal winner={winner} resetGame={resetGame} />
 
     </main>
   )
