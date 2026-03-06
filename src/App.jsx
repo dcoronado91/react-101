@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './App.css'
+import confetti from 'canvas-confetti'
 
 //Turnos
 const TURNS  = {
@@ -63,6 +64,11 @@ const resetGame = () => {
   setWinner(null) // Reinicia el ganador a null
 }
 
+const checkEndGame = (newBoard) => {
+  // Revisa si el tablero está lleno (no hay casillas vacías)
+  return newBoard.every(square => square !== null)
+}
+
 // Función para actualizar el tablero cuando se hace click en una casilla (se llama en el componente Square)
   const updateBoard = (index) => {
     if(board[index] || winner) return // Si la casilla ya tiene un valor, no se actualiza el tablero
@@ -71,8 +77,13 @@ const resetGame = () => {
     setBoard(newBoard)
     const newWinner = checkWinner(newBoard) // Revisa si hay ganador con el nuevo tablero
     if(newWinner) {
+      confetti() // Si hay ganador, se lanza confetti
       setWinner(newWinner) // Si hay ganador, se actualiza el estado winner
+    } else if (checkEndGame(newBoard)) {
+      confetti() // Si es empate, se lanza confetti
+      setWinner(false) // empate (winner es false cuando no hay ganador pero el tablero está lleno)
     }
+
 
 // Funcion para cambiar el turno después de cada click (si es "X" pasa a "O" y viceversa)
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
@@ -82,6 +93,7 @@ const resetGame = () => {
   return (
     <main className='board'>
       <h1>tictactoe</h1>
+      <button onClick={resetGame}>Reiniciar juego</button>
       <section className='game'>
         {
           board.map((_, index) => {
